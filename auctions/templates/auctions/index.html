@@ -1,15 +1,30 @@
 {% extends "auctions/layout.html" %}
-
+<style>
+    table,td {
+      padding: 15px;
+    }
+    
+    </style>
 {% block body %}
     {% if message %}
         <div>{{ message }}</div>
     {% endif %}
-    <h2>Active Listings</h2>
+    <h2>Active Listings</h2><br>
 
     {% for listing in Listings %}
-        <li>{{listing.auction.title}}</li>
-        <img src="{{listing.auction.image}}" alt="No Image" height="220">
-        <p>Owner: {{listing.auction.owner}} Current price: ${{listing.bidprice}} </p>
-
+        
+        <table style="width:65%"> 
+           
+            
+                <td><b>{{listing.auction.title}}</b><br>
+                    <img src="{{listing.auction.image}}" 
+                    alt="No Image" height="120" 
+                    onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png'"></td>
+                <td><b>Owner:</b> {{listing.auction.owner}}<br>
+                <b>Current price:</b> ${{listing.bidprice}}</td>
+            
+            <hr style= color:black>
+        </table>
     {% endfor %}
+    
 {% endblock %}
