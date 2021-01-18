@@ -5,8 +5,8 @@
 
     <form action="{% url 'newitem' %}" method="post">
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit">
+        {{ form.as_p }}
+       <ul><input type="submit" value="Submit"> </ul> 
     </form>
     
 {% endblock %}

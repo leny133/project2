@@ -9,7 +9,7 @@ class User(AbstractUser):
 class listings(models.Model):
     title = models.CharField(max_length=140)
     description = models.CharField(max_length=250)
-    active = models.BooleanField()
+    active = models.BooleanField(default=False)
     owner = models.ForeignKey(User, on_delete=models.PROTECT)
     category = models.CharField(max_length=24)
     image = models.URLField(null=True)

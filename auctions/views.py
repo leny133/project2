@@ -6,10 +6,14 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from .models import User, listings, bids, comments
+from .forms import NewItemForm
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    listing = listings.objects.filter(active=True)
+    return render(request, "auctions/index.html",{
+        "Listings": listing
+    })
 
 
 def login_view(request):
@@ -67,8 +71,24 @@ def register(request):
 @login_required
 def newitem(request):
     if request.method == "POST":
+        title = request.POST["title"]
+        description = request.POST["description"]
+        category = request.POST["category"]
+        imgUrl = request.POST["imgUrl"]
+        price = request.POST["price"]
+        user = request.user
         
+        #try:
+        listing = listings(title= title,description= description,active=True,owner=request.user,category=category,image=imgUrl)
+        listing.save()
+        bid = bids(auction=listing,bidder=user,bidprice=price)
+        bid.save()
+        #except:
+         #   return render(request, "auctions/index.html",{
+          #      "message": "Something went wrong try again."
+           # })
 
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "auctions/newlisting.html")
+        form = NewItemForm
+        return render(request, "auctions/newlisting.html", {'form': form})
