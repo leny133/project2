@@ -12,7 +12,7 @@ class listings(models.Model):
     active = models.BooleanField()
     owner = models.ForeignKey(User, on_delete=models.PROTECT)
     category = models.CharField(max_length=24)
-    image = models.URLField()
+    image = models.URLField(null=True)
 
 class bids(models.Model):
     auction = models.ForeignKey(listings, on_delete= models.PROTECT)
