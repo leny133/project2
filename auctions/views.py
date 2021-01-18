@@ -10,7 +10,8 @@ from .forms import NewItemForm
 
 
 def index(request):
-    listing = listings.objects.filter(active=True)
+    #listing = listings.objects.filter(active=True).select_related('auction')
+    listing = bids.objects.all().select_related('auction')
     return render(request, "auctions/index.html",{
         "Listings": listing
     })

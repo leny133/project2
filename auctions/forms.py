@@ -10,4 +10,8 @@ class NewItemForm(forms.Form):
     ]
     category = forms.CharField(label="Category ",widget= forms.Select(choices=CATEGORY_CHOICES))
     imgUrl = forms.CharField(label='Image URL', max_length=100, required=False)
-    price = forms.DecimalField(decimal_places=2, max_digits=8, label="Initial Price", required=True)
+    price = forms.DecimalField(decimal_places=2,
+         max_digits=8,
+         label="Initial Price", 
+         required=True
+         )

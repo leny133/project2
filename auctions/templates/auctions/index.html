@@ -7,7 +7,9 @@
     <h2>Active Listings</h2>
 
     {% for listing in Listings %}
-        <li>{{listing.title}}</li>
-        <img src="{{listing.image}}" alt="No Image" height="220">
+        <li>{{listing.auction.title}}</li>
+        <img src="{{listing.auction.image}}" alt="No Image" height="220">
+        <p>Owner: {{listing.auction.owner}} Current price: ${{listing.bidprice}} </p>
+
     {% endfor %}
 {% endblock %}

@@ -17,7 +17,7 @@ class listings(models.Model):
 class bids(models.Model):
     auction = models.ForeignKey(listings, on_delete= models.PROTECT)
     bidder = models.ForeignKey(User, on_delete= models.PROTECT, related_name= "bidder")
-    bidprice = models.DecimalField(decimal_places=2, max_digits=8)
+    bidprice = models.DecimalField(decimal_places=2, max_digits=8 )
     winner = models.ForeignKey(User, null=True, related_name="winner", blank = True, on_delete= models.PROTECT)
 
 class comments(models.Model):
