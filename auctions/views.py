@@ -78,15 +78,15 @@ def newitem(request):
         price = request.POST["price"]
         user = request.user
         
-        #try:
-        listing = listings(title= title,description= description,active=True,owner=request.user,category=category,image=imgUrl)
-        listing.save()
-        bid = bids(auction=listing,bidder=user,bidprice=price)
-        bid.save()
-        #except:
-         #   return render(request, "auctions/index.html",{
-          #      "message": "Something went wrong try again."
-           # })
+        try:
+            listing = listings(title= title,description= description,active=True,owner=request.user,category=category,image=imgUrl)
+            listing.save()
+            bid = bids(auction=listing,bidder=user,bidprice=price)
+            bid.save()
+        except:
+            return render(request, "auctions/index.html",{
+                "message": "Something went wrong try again."
+            })
 
         return HttpResponseRedirect(reverse("index"))
     else:

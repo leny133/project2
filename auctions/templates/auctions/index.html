@@ -8,6 +8,6 @@
 
     {% for listing in Listings %}
         <li>{{listing.title}}</li>
-
+        <img src="{{listing.image}}" alt="No Image" height="220">
     {% endfor %}
 {% endblock %}
