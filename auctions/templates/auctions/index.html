@@ -12,8 +12,8 @@
     <h2>Active Listings</h2><br>
 
     {% for listing in Listings %}
-        
-        <table style="width:65%"> 
+        {% if listing.auction.active == True %}
+            <table style="width:65%"> 
            
             
                 <td><b>{{listing.auction.title}}</b><br>
@@ -21,10 +21,19 @@
                     alt="No Image" height="120" 
                     onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png'"></td>
                 <td><b>Owner:</b> {{listing.auction.owner}}<br>
-                <b>Current price:</b> ${{listing.bidprice}}</td>
+                <b>Current price:</b> ${{listing.bidprice}}<br>
+                {{listing.auction.id}}
+                <form action="{% url 'newbid' %}" method="post">
+                    {% csrf_token %}
+
+                    <input type="hidden" name="listng" value="{{listing.auction.id}}">
+                   <ul><input type="submit" value="  Bid  "> </ul> 
+                </form></td>
             
-            <hr style= color:black>
-        </table>
+                <hr style= color:black>
+            </table>
+        {% endif %}
+        
     {% endfor %}
     
 {% endblock %}

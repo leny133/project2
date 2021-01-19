@@ -1,0 +1,36 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{{listing}}
+
+{{test}}
+{% for listing in Listings %}
+<table style="width:65%"> 
+           
+            
+    <td><b>{{listing.auction.title}}</b><br>
+        <img src="{{listing.auction.image}}" 
+        alt="No Image" height="120" 
+        onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png'"></td>
+    <td><b>Owner:</b> {{listing.auction.owner}}<br>
+    <b>Current price:</b> ${{listing.bidprice}}</td>
+
+
+</table>
+    {% if user.is_authenticated %}
+        <h2>Bid for this listing:</h2>
+        <form action="{% url 'newitem' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <ul><input type="submit" value="Submit"> </ul> 
+        </form>
+
+    {% else %}
+        Not signed in.
+    {% endif %}
+
+{% endfor %}
+
+    
+    
+{% endblock %}

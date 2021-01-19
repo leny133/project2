@@ -10,7 +10,6 @@ from .forms import NewItemForm
 
 
 def index(request):
-    #listing = listings.objects.filter(active=True).select_related('auction')
     listing = bids.objects.all().select_related('auction')
     return render(request, "auctions/index.html",{
         "Listings": listing
@@ -68,6 +67,16 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+@login_required
+def newbid(request):
+    listing = bids.objects.all().select_related('auction').filter(auction_id=request.POST["listng"])
+        
+    return render(request,"auctions/bid.html",{
+        "Listings": listing,
+        "test": request.POST["listng"]
+    })
+    
+    
 
 @login_required
 def newitem(request):
