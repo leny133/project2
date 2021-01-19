@@ -22,14 +22,17 @@
                     onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png'"></td>
                 <td><b>Owner:</b> {{listing.auction.owner}}<br>
                 <b>Current price:</b> ${{listing.bidprice}}<br>
-                {{listing.auction.id}}
+                {% if user.is_authenticated %}
                 <form action="{% url 'newbid' %}" method="post">
                     {% csrf_token %}
 
                     <input type="hidden" name="listng" value="{{listing.auction.id}}">
                    <ul><input type="submit" value="  Bid  "> </ul> 
-                </form></td>
-            
+                </form>
+                {% else %}
+                    <a class="nav-link" href="{% url 'login' %}">Log In to Bid</a>
+                {% endif %}
+                </td>
                 <hr style= color:black>
             </table>
         {% endif %}
