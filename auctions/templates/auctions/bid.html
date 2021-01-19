@@ -1,11 +1,15 @@
 {% extends "auctions/layout.html" %}
-
+<head>
+    <style>
+    table, td {
+      border: 2px black;
+    }
+    </style>
+    </head>
 {% block body %}
-{{listing}}
 
-{{minimum}}
 {% for listing in Listings %}
-<table style="width:65%"> 
+<table> 
            
             
     <td><b>{{listing.auction.title}}</b><br>
@@ -13,9 +17,12 @@
         alt="No Image" height="120" 
         onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png'"></td>
     <td><b>Owner:</b> {{listing.auction.owner}}<br>
-    <b>Current price:</b> ${{listing.bidprice}}</td>
-
-
+    <b>Current price:</b> ${{listing.bidprice}}<br>
+    <b>Current max bidder:</b> {{listing.bidder}}<br>
+        {% if listing.auction.owner == request.user %}
+            Can close
+        {% endif %}
+    </td>
 </table>
     {% if user.is_authenticated %}
         <b>Bid for this listing:</b>
@@ -29,11 +36,11 @@
             <ul><input type="submit" value="Submit"> </ul> 
             
         </form>
-
+         
     {% else %}
         Not signed in.
     {% endif %}
-
+        
 {% endfor %}
 
     
