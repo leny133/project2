@@ -3,7 +3,7 @@
 {% block body %}
 {{listing}}
 
-{{test}}
+{{minimum}}
 {% for listing in Listings %}
 <table style="width:65%"> 
            
@@ -18,11 +18,16 @@
 
 </table>
     {% if user.is_authenticated %}
-        <h2>Bid for this listing:</h2>
+        <b>Bid for this listing:</b>
         <form action="{% url 'newitem' %}" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            
+            
+            <input type="number" id="quantity"
+             name="quantity" min="{{minimum}}" step=".01" value="{{minimum}}">
+             <br>Bidding is limited to the current price plus a minimum of .01 cents.
             <ul><input type="submit" value="Submit"> </ul> 
+            
         </form>
 
     {% else %}

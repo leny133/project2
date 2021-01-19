@@ -15,3 +15,4 @@ class NewItemForm(forms.Form):
          label="Initial Price", 
          required=True
          )
+

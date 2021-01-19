@@ -4,9 +4,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
+from decimal import Decimal
 from .models import User, listings, bids, comments
-from .forms import NewItemForm
+from .forms import *
 
 
 def index(request):
@@ -70,10 +70,11 @@ def register(request):
 @login_required
 def newbid(request):
     listing = bids.objects.all().select_related('auction').filter(auction_id=request.POST["listng"])
-        
+    minimum = listing[0].bidprice + Decimal(.01).quantize(Decimal('0.01'))
+    form = NewBidForm
     return render(request,"auctions/bid.html",{
         "Listings": listing,
-        "test": request.POST["listng"]
+        "minimum": minimum
     })
     
     
