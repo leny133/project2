@@ -24,3 +24,7 @@ class comments(models.Model):
     commentUser = models.ForeignKey(User, on_delete= models.PROTECT)
     listingComment = models.ForeignKey(listings, on_delete= models.PROTECT)
     comment = models.CharField(max_length=250)
+
+class watchlist(models.Model):
+    watchlisting = models.ForeignKey(listings, on_delete= models.PROTECT, related_name= "watchlisting")
+    watchuser = models.ForeignKey(User, on_delete= models.PROTECT, related_name= "watchuser")
