@@ -71,7 +71,6 @@ def register(request):
 def newbid(request):
     listing = bids.objects.all().select_related('auction').filter(auction_id=request.POST["listng"])
     minimum = listing[0].bidprice + Decimal(.01).quantize(Decimal('0.01'))
-    form = NewBidForm
     return render(request,"auctions/bid.html",{
         "Listings": listing,
         "minimum": minimum
