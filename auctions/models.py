@@ -25,6 +25,7 @@ class comments(models.Model):
     listingComment = models.ForeignKey(listings, on_delete= models.PROTECT)
     comment = models.CharField(max_length=250)
 
-class watchlist(models.Model):
+class watchlist_db(models.Model):
     watchlisting = models.ForeignKey(listings, on_delete= models.PROTECT, related_name= "watchlisting")
     watchuser = models.ForeignKey(User, on_delete= models.PROTECT, related_name= "watchuser")
+    watchactive = models.BooleanField(default=False)

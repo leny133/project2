@@ -5,16 +5,45 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from decimal import Decimal
-from .models import User, listings, bids, comments
+from .models import *
 from .forms import *
 
 
 def index(request):
     listing = bids.objects.all().select_related('auction')
+    wlist = watchlist_db.objects.all().select_related('watchlisting')
     return render(request, "auctions/index.html",{
-        "Listings": listing
+        "Listings": listing,
+        "wlist":wlist
     })
 
+def categories(request):
+    categorieslist = CATEGORY_CHOICES
+    return render(request, "auctions/categories.html",{
+            "categories": categorieslist
+        })
+
+def watchlist(request):
+    if request.method == "POST":
+        user=request.user
+        addwatch = request.POST['watchid']
+        if request.POST['watchactive'] is True:
+            w = watchlist_db(watchlisting=addwatch, watchuser=user, watchactive=True)
+            w.save()
+        else:
+            w = watchlist_db(watchlisting=addwatch, watchuser=user, watchactive=False)
+            w.update()
+        return 10
+
+def closed(request):
+    return 10
+
+def selected(request, selcat):
+    listing = bids.objects.all().select_related('auction')
+    return render(request, "auctions/selcat.html",{
+        "Listings": listing,
+        "selected": selcat
+    })
 
 def login_view(request):
     if request.method == "POST":

@@ -10,5 +10,8 @@ urlpatterns = [
     path("newlisting", views.newitem, name="newitem"),
     path("newbid", views.newbid, name="newbid"),
     path("categories", views.categories, name="categories"),
-    path("watchlist", views.watchlist, name="watchlist")
+    path("watchlist", views.watchlist, name="watchlist"),
+    path("closedlist", views.closed, name="closedlist"),
+    path("categories/<str:selcat>", views.selected, name="selected")
+    
 ]
