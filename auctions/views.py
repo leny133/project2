@@ -29,7 +29,7 @@ def watchlist(request):
         addwatch = listings.objects.get(id=request.POST['watchid'])
         if request.POST['watchactive'] == True:
             try:
-                w = watchlist_db.objects.create(watchlisting_id=addwatch,watchuser=request.user,watchactive=True)
+                w = watchlist_db.get_or_create(watchlisting_id=5,watchuser_id=1,watchactive=True)
                 w.save()
             except IntegrityError:
                 return render(request, "auctions/register.html", {
