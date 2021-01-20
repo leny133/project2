@@ -26,18 +26,18 @@ def categories(request):
 def watchlist(request):
     if request.method == "POST":
         
-        addwatch = listings.objects.get(id=request.POST['watchid'])
+        addwatch = watchlist_db.objects.all().select_related('watchlisting').filter(watchlisting_id=request.POST['watchid'])
         if request.POST['watchactive'] == True:
             try:
-                w = watchlist_db.get_or_create(watchlisting_id=5,watchuser_id=1,watchactive=True)
-                w.save()
+                wlst = watchlist_db(watchlisting=addwatch,watchuser=request.user,watchactive=True)
+                wlst.save()
             except IntegrityError:
                 return render(request, "auctions/register.html", {
-                "message": "Did not write on db."
+                "message": "wlst"
             })
 
         return render(request, "auctions/index.html",{
-            "message": addwatch
+            "message": "wlst"
         })
         #else:
             
