@@ -52,7 +52,7 @@
                     {% endfor %}
                             <form action="{% url 'watchlist' %}" method="post">
                                     {% csrf_token %}
-                                    <input type="hidden" name="watchactive" value="True">
+                                    <input type="hidden" name="watchactive" value="False">
                                      <input type="hidden" name="watchid" value="{{listing.auction.id}}">
                                     <ul><input type="submit" value="Add to Watchlist"> </ul> 
                                     </form>

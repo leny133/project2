@@ -26,13 +26,17 @@ def categories(request):
 def watchlist(request):
     if request.method == "POST":
         user=request.user
-        addwatch = request.POST['watchid']
+        addwatch = listings.objects.get(id=request.POST['watchid'])
         if request.POST['watchactive'] == True:
-            w = watchlist_db(watchlisting=addwatch,watchuser=user,watchactive=True)
+            w = watchlist_db(watchlisting_id=addwatch.id,watchuser=user,watchactive=True)
             w.save()
+            
+        return render(request, "auctions/index.html",{
+            "message": addwatch.id
+        })
         #else:
             
-        return render(request, "auctions/index.html")
+    return render(request, "auctions/index.html")
 
 def closed(request):
     return 10
