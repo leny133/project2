@@ -29,21 +29,14 @@
                         <input type="hidden" name="listng" value="{{listing.auction.id}}">
                         <ul><input type="submit" value="  Bid  "> </ul> 
                     </form>
+                    
                     {% for wtlist in wlist %}
                         {{wtlist.watchlisting.id}}-{{listing.auction.id}} {{wtlist.watchuser}}-{{request.user.username}} {{wtlist.watchactive}}
                         {% if wtlist.watchlisting.id == listing.auction.id   %}
                             
                             {% if wtlist.watchuser.username == request.user.username %} 
                                 
-                                {% if wtlist.watchactive == False %}
-                                       
-                                    <form action="{% url 'watchlist' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="watchactive" value="True">
-                                     <input type="hidden" name="watchid" value="{{listing.auction.id}}">
-                                    <ul><input type="submit" value="Add to Watchlist"> </ul> 
-                                    </form>
-                                {% else %}
+                                {% if wtlist.watchactive != False %}
                                     <form action="{% url 'watchlist' %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="watchactive" value="False">
@@ -57,7 +50,12 @@
                         {% endif %}
                         
                     {% endfor %}
-                    
+                            <form action="{% url 'watchlist' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="watchactive" value="True">
+                                     <input type="hidden" name="watchid" value="{{listing.auction.id}}">
+                                    <ul><input type="submit" value="Add to Watchlist"> </ul> 
+                                    </form>
                 {% else %}
                     <a class="nav-link" href="{% url 'login' %}">Log In to Bid</a>
                 {% endif %}
