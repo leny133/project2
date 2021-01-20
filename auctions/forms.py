@@ -1,7 +1,7 @@
 from django import forms
 
 CATEGORY_CHOICES=[
-        ('nocat',''),
+        ('Uncategorized',''),
         ('Home','Home'),
         ('Electronics','Electronics')
     ]
