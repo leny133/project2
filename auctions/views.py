@@ -10,12 +10,16 @@ from .forms import *
 
 
 def index(request):
+    if request.user.is_authenticated:
+        wlist = watchlist_db.objects.all().select_related('watchlisting').filter(watchuser=request.user)
+    else:
+        wlist = watchlist_db.objects.all().select_related('watchlisting')
+    
     listing = bids.objects.all().select_related('auction')
-    wlist = watchlist_db.objects.all().select_related('watchlisting')
     return render(request, "auctions/index.html",{
         "Listings": listing,
         "wlist":wlist
-    })
+        })
 
 def categories(request):
     categorieslist = CATEGORY_CHOICES
@@ -29,7 +33,7 @@ def watchlist(request):
         
         if request.POST['watchactive'] == "True":
             try:
-                wlst = watchlist_db(watchlisting_id=addwatch,watchuser=request.user,watchactive=True)
+                wlst = watchlist_db.objects.get_or_create(watchlisting_id=addwatch,watchuser=request.user,watchactive=True)[0]
                 wlst.save()
                 
             except IntegrityError:
