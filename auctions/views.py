@@ -25,25 +25,22 @@ def categories(request):
 
 def watchlist(request):
     if request.method == "POST":
-        message = request.POST['watchactive']
-        addwatch = watchlist_db.objects.all().select_related('watchlisting').filter(watchlisting_id=request.POST['watchid'])
-        wlst = watchlist_db(watchlisting_id=addwatch,watchuser=request.user,watchactive=True)
+        addwatch = request.POST['watchid']
+        
         if request.POST['watchactive'] == "True":
             try:
-                #wlst.save()
-                message = "under save"
+                wlst = watchlist_db(watchlisting_id=addwatch,watchuser=request.user,watchactive=True)
+                wlst.save()
+                
             except IntegrityError:
                 message = "exept"
                 return render(request, "auctions/register.html", {
-                "message": message
+                "message": " Sorry somenthing went wrong try again."
             })
 
-        return render(request, "auctions/index.html",{
-            "message": message
-        })
-        #else:
+               
             
-    return render(request, "auctions/index.html")
+    return index(request)
 
 def closed(request):
     return 10
