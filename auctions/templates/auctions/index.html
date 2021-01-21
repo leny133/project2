@@ -14,58 +14,29 @@
     {% for listing in Listings %}
         {% if listing.auction.active == True %}
             <table style="width:65%"> 
-           
-            
-                <td><b>{{listing.auction.title}}</b><br>
-                    <img src="{{listing.auction.image}}" 
+                {% if user.is_authenticated %}
+                    <td><a href="bid/{{listing.auction.pk}}"><br><b>{{listing.auction.title}}</b><br></a>                 
+                <img src="{{listing.auction.image}}" 
                     alt="No Image" height="120" 
                     onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png'"></td>
                 <td><b>Owner:</b> {{listing.auction.owner}}<br>
-                <b>Current price:</b> ${{listing.bidprice}}<br>
-                {% if user.is_authenticated %}
-                    <form action="{% url 'newbid' %}" method="post">
-                        {% csrf_token %}
-
-                        <input type="hidden" name="listng" value="{{listing.auction.id}}">
-                        <ul><input type="submit" value="  Bid  "> </ul> 
-                    </form>
-                    
-                    {% for wtlist in wlist %}
-                        {{wtlist.watchlisting.id}}-{{listing.auction.id}} {{wtlist.watchuser}}-{{request.user.username}} {{wtlist.watchactive}}
-                        
-                            {% if wtlist.watchactive != False %} 
-                                
-                            
-                                {% if wtlist.watchlisting.id == listing.auction.id   %} 
-                                                    
-                                
-                                    <form action="{% url 'watchlist' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="watchactive" value="False">
-                                    <input type="hidden" name="watchid" value="{{listing.auction.id}}">
-                                    <ul><input type="submit" value="Remove from Watchlist"> </ul> 
-                                    </form>
-                                {% else %}
-                                  <form action="{% url 'watchlist' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="watchactive" value="True">
-                                     <input type="hidden" name="watchid" value="{{listing.auction.id}}">
-                                    <ul><input type="submit" value="Add to Watchlist"> </ul> 
-                                    </form>  
-                                {% endif %}
-                               
-                            {% endif %}
-                        
-                                           
-                                   
-                        
-                        
-                    {% endfor %}
+                <b>Current price:</b> ${{listing.bidprice}}<br></td>
                            
                 {% else %}
-                    <a class="nav-link" href="{% url 'login' %}">Log In to Bid</a>
+                    <td><br><b>{{listing.auction.title}}</b><br>
+                    <img src="{{listing.auction.image}}" 
+                    alt="No Image" height="120" 
+                    onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png'"></td>
+                    <td><b>Owner:</b> {{listing.auction.owner}}<br>
+                    <b>Current price:</b> ${{listing.bidprice}}<br>
+                    <a class="nav-link" href="{% url 'login' %}">Log In to Bid</a></td>
                 {% endif %}
-                </td>
+            
+                
+
+                    
+                
+                
                 <hr style= color:black>
             </table>
         {% endif %}

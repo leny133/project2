@@ -30,21 +30,14 @@ def categories(request):
 def watchlist(request):
     if request.method == "POST":
         addwatch = request.POST['watchid']
-        
+        wlst = watchlist_db.objects.get_or_create(watchlisting_id=addwatch,watchuser=request.user,watchactive=True)[0]
         if request.POST['watchactive'] == "True":
-            try:
-                wlst = watchlist_db.objects.get_or_create(watchlisting_id=addwatch,watchuser=request.user,watchactive=True)[0]
-                wlst.save()
-                
-            except IntegrityError:
-                message = "exept"
-                return render(request, "auctions/register.html", {
-                "message": " Sorry somenthing went wrong try again."
-            })
-
-               
-            
-    return index(request)
+            wlst.save()
+        else:
+            wlst.watchactive = False
+            wlst.save()
+    
+    return newbid(request,addwatch)
 
 def closed(request):
     return 10
@@ -108,12 +101,22 @@ def register(request):
         return render(request, "auctions/register.html")
 
 @login_required
-def newbid(request):
-    listing = bids.objects.all().select_related('auction').filter(auction_id=request.POST["listng"])
+def newbid(request, AuId ):
+    listing = bids.objects.all().select_related('auction').filter(auction_id=AuId)
     minimum = listing[0].bidprice + Decimal(.01).quantize(Decimal('0.01'))
+    watchlisted = watchlist_db.objects.filter(watchlisting_id=AuId,watchuser=request.user,watchactive=True)
+    if  watchlisted.exists():
+        watch = False
+        bttnmsg = "Remove from watchlist."
+    else:
+        watch = True
+        bttnmsg = "Add to watchlist"
+
     return render(request,"auctions/bid.html",{
         "Listings": listing,
-        "minimum": minimum
+        "minimum": minimum,
+        "watch" : watch,
+        "bttnmsg": bttnmsg
     })
     
     

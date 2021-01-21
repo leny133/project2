@@ -19,6 +19,12 @@
     <td><b>Owner:</b> {{listing.auction.owner}}<br>
     <b>Current price:</b> ${{listing.bidprice}}<br>
     <b>Current max bidder:</b> {{listing.bidder}}<br>
+    <form action="{% url 'watchlist' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="watchactive" value="{{watch}}">
+        <input type="hidden" name="watchid" value="{{listing.auction.id}}">
+        <ul><input type="submit" value="{{bttnmsg}}"></ul> 
+    </form>
         {% if listing.auction.owner == request.user %}
             Can close
         {% endif %}
