@@ -10,15 +10,9 @@ from .forms import *
 
 
 def index(request):
-    if request.user.is_authenticated:
-        wlist = watchlist_db.objects.all().select_related('watchlisting').filter(watchuser=request.user)
-    else:
-        wlist = watchlist_db.objects.all().select_related('watchlisting')
-    
     listing = bids.objects.all().select_related('auction')
     return render(request, "auctions/index.html",{
-        "Listings": listing,
-        "wlist":wlist
+        "Listings": listing
         })
 
 def categories(request):
@@ -33,11 +27,18 @@ def watchlist(request):
         wlst = watchlist_db.objects.get_or_create(watchlisting_id=addwatch,watchuser=request.user,watchactive=True)[0]
         if request.POST['watchactive'] == "True":
             wlst.save()
+            return newbid(request,addwatch)
         else:
             wlst.watchactive = False
             wlst.save()
-    
-    return newbid(request,addwatch)
+        return newbid(request,addwatch)
+    else:
+        mylist = watchlist_db.objects.select_related('watchlisting').filter(watchuser=request.user,watchactive=True)
+        return render("auctions/watchlist.html",{
+            "Listings": mylist
+        })
+
+      
 
 def closed(request):
     return 10

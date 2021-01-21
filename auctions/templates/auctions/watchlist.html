@@ -1,7 +1,46 @@
 {% extends "auctions/layout.html" %}
-
+<style>
+    table,td {
+      padding: 15px;
+    }
+    
+    </style>
 {% block body %}
-    <h2>Watchlist</h2>
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    <h2>Active Listings</h2><br>
 
-    TODO
+    {% for listing in Listings %}
+        {% if listing.auction.active == True %}
+            <table style="width:65%"> 
+                {% if user.is_authenticated %}
+                    <td><a href="bid/{{listing.auction.pk}}"><br><b>{{listing.auction.title}}</b><br></a>                 
+                <img src="{{listing.auction.image}}" 
+                    alt="No Image" height="120" 
+                    onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png'"></td>
+                <td><b>Owner:</b> {{listing.auction.owner}}<br>
+                <b>Current price:</b> ${{listing.bidprice}}<br></td>
+                           
+                {% else %}
+                    <td><br><b>{{listing.auction.title}}</b><br>
+                    <img src="{{listing.auction.image}}" 
+                    alt="No Image" height="120" 
+                    onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png'"></td>
+                    <td><b>Owner:</b> {{listing.auction.owner}}<br>
+                    <b>Current price:</b> ${{listing.bidprice}}<br>
+                    <a class="nav-link" href="{% url 'login' %}">Log In to Bid</a></td>
+                {% endif %}
+            
+                
+
+                    
+                
+                
+                <hr style= color:black>
+            </table>
+        {% endif %}
+        
+    {% endfor %}
+    
 {% endblock %}
