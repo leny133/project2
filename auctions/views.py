@@ -123,12 +123,14 @@ def newbid(request, AuId ):
 @login_required
 def bidamount(request):
     #working here 
-    newprice = request.POST['quantity']
-    listing = bids.objects.all().select_related('auction')
-    return render(request, "auctions/index.html",{
-        "Listings": listing,
-        "message": message
-        })
+    quantity = request.POST['quantity']
+    bidlisting = request.POST['bidlisting']
+    listing = bids.objects.get(auction_id=bidlisting)
+    listing.bidprice = quantity
+    listing.save()
+    listing.bidder = request.user
+    listing.save()
+    return newbid(request,bidlisting)
 
 @login_required
 def newitem(request):

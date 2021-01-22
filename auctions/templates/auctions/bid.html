@@ -35,7 +35,7 @@
         <form action="{% url 'bidamount' %}" method="post">
             {% csrf_token %}
             
-            
+            <input type="hidden" name="bidlisting" value="{{listing.auction.id}}">
             <input type="number" id="quantity"
              name="quantity" min="{{minimum}}" step=".01" value="{{minimum}}">
              <br>Bidding is limited to the current price plus a minimum of .01 cents.
