@@ -33,8 +33,8 @@ def watchlist(request):
             wlst.save()
         return newbid(request,addwatch)
     else:
-        mylist = watchlist_db.objects.select_related('watchlisting').filter(watchuser=request.user,watchactive=True)
-        return render("auctions/watchlist.html",{
+        mylist = watchlist_db.objects.all().select_related('watchlisting').filter(watchuser=request.user,watchactive=True)
+        return render(request,"auctions/watchlist.html",{
             "Listings": mylist
         })
 
