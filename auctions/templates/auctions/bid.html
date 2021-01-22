@@ -32,7 +32,7 @@
 </table>
     {% if user.is_authenticated %}
         <b>Bid for this listing:</b>
-        <form action="{% url 'newitem' %}" method="post">
+        <form action="{% url 'bidamount' %}" method="post">
             {% csrf_token %}
             
             

@@ -118,9 +118,17 @@ def newbid(request, AuId ):
         "minimum": minimum,
         "watch" : watch,
         "bttnmsg": bttnmsg
-    })
+         })
     
-    
+@login_required
+def bidamount(request):
+    #working here 
+    newprice = request.POST['quantity']
+    listing = bids.objects.all().select_related('auction')
+    return render(request, "auctions/index.html",{
+        "Listings": listing,
+        "message": message
+        })
 
 @login_required
 def newitem(request):
