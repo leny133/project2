@@ -122,7 +122,6 @@ def newbid(request, AuId ):
     
 @login_required
 def bidamount(request):
-    #working here 
     quantity = request.POST['quantity']
     bidlisting = request.POST['bidlisting']
     listing = bids.objects.get(auction_id=bidlisting)
