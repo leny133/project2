@@ -25,15 +25,22 @@
         <input type="hidden" name="watchid" value="{{listing.auction.id}}">
         <ul><input type="submit" value="{{bttnmsg}}"></ul> 
     </form>
-        {% if listing.auction.owner == request.user %}
-            Can close
-        {% endif %}
+       
     </td>
 </table>
     {% if user.is_authenticated %}
-        <b>Bid for this listing:</b>
-        <form action="{% url 'bidamount' %}" method="post">
+        {% if listing.auction.owner == request.user %}
+          <form action="{% url 'closedlist' %}" method="post">
             {% csrf_token %}
+            {{ form.as_p }}
+            <input type="hidden" name="bidlisting" value="{{listing.auction.id}}">
+            <input type="hidden" name="winner" value="{{listing.bidder.id}}">
+           <ul><input type="submit" value="Submit"> </ul> 
+        </form>
+        {% else %}
+            <b>Bid for this listing:</b>
+            <form action="{% url 'bidamount' %}" method="post">
+                {% csrf_token %}
             
             <input type="hidden" name="bidlisting" value="{{listing.auction.id}}">
             <input type="number" id="quantity"
@@ -41,8 +48,8 @@
              <br>Bidding is limited to the current price plus a minimum of .01 cents.
             <ul><input type="submit" value="Submit"> </ul> 
             
-        </form>
-         
+            </form>
+        {% endif %} 
     {% else %}
         Not signed in.
     {% endif %}

@@ -41,8 +41,19 @@ def watchlist(request):
       
 
 def closed(request):
-    return 10
-
+    
+    if request.method == "POST":
+        winner = bids.objects.get(auction_id=request.POST['bidlisting'])
+        winner.winner = winner.bidder
+        winner.save()
+        listing = listings.objects.get(id=request.POST['bidlisting'])
+        listing.active = False
+        listing.save()
+    
+    listing = bids.objects.all().select_related('auction')
+    return render(request, "auctions/closedlist.html",{
+            "Listings": listing
+            })
 def selected(request, selcat):
     listing = bids.objects.all().select_related('auction')
     return render(request, "auctions/selcat.html",{
@@ -106,6 +117,7 @@ def newbid(request, AuId ):
     listing = bids.objects.all().select_related('auction').filter(auction_id=AuId)
     minimum = listing[0].bidprice + Decimal(.01).quantize(Decimal('0.01'))
     watchlisted = watchlist_db.objects.filter(watchlisting_id=AuId,watchuser=request.user,watchactive=True)
+    form = closedlistingForm
     if  watchlisted.exists():
         watch = False
         bttnmsg = "Remove from watchlist."
@@ -117,7 +129,8 @@ def newbid(request, AuId ):
         "Listings": listing,
         "minimum": minimum,
         "watch" : watch,
-        "bttnmsg": bttnmsg
+        "bttnmsg": bttnmsg,
+        "form": form
          })
     
 @login_required

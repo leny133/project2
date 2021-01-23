@@ -17,3 +17,5 @@ class NewItemForm(forms.Form):
          required=True
          )
 
+class closedlistingForm(forms.Form):
+    closelisting = forms.BooleanField(label="Close auction.")
