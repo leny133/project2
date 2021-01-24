@@ -118,6 +118,8 @@ def newbid(request, AuId ):
     minimum = listing[0].bidprice + Decimal(.01).quantize(Decimal('0.01'))
     watchlisted = watchlist_db.objects.filter(watchlisting_id=AuId,watchuser=request.user,watchactive=True)
     form = closedlistingForm
+    commt = comments.objects.select_related('listingComment').filter(listingComment_id=AuId)
+    commform = CommentForm
     if  watchlisted.exists():
         watch = False
         bttnmsg = "Remove from watchlist."
@@ -130,9 +132,18 @@ def newbid(request, AuId ):
         "minimum": minimum,
         "watch" : watch,
         "bttnmsg": bttnmsg,
-        "form": form
+        "form": form,
+        "comments": commt,
+        "commform": commform,
+        "AuId":AuId
          })
-    
+@login_required
+def newcomment(request):
+    LisId = request.POST['commlisting']
+    comment = comments(commentUser=request.user,listingComment_id=LisId,comment=request.POST['comment'])
+    comment.save()
+    return newbid(request,LisId)
+
 @login_required
 def bidamount(request):
     quantity = request.POST['quantity']

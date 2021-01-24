@@ -21,8 +21,8 @@ class bids(models.Model):
     winner = models.ForeignKey(User, null=True, related_name="winner", blank = True, on_delete= models.PROTECT)
 
 class comments(models.Model):
-    commentUser = models.ForeignKey(User, on_delete= models.PROTECT)
-    listingComment = models.ForeignKey(listings, on_delete= models.PROTECT)
+    commentUser = models.ForeignKey(User, on_delete= models.PROTECT, related_name="commentUser")
+    listingComment = models.ForeignKey(listings, on_delete= models.PROTECT, related_name="listingComment")
     comment = models.CharField(max_length=250)
 
 class watchlist_db(models.Model):

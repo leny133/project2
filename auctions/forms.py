@@ -19,3 +19,7 @@ class NewItemForm(forms.Form):
 
 class closedlistingForm(forms.Form):
     closelisting = forms.BooleanField(label="Close auction.")
+
+
+class CommentForm(forms.Form):
+    comment = forms.CharField(widget=forms.Textarea)

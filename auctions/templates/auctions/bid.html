@@ -55,7 +55,24 @@
     {% endif %}
         
 {% endfor %}
-
-    
+{% if user.is_authenticated %}
+    {% for comment in comments %}
+    <hr style= color:black>
+    <table>
+        
+        <td><b>{{comment.commentUser}}</b> comment:<br>
+        {{comment.comment}}<br></td>
+        
+    </table> 
+    <hr style= color:black>   
+    {% endfor %}
+    <form action="{% url 'newcomment' %}" method="post">
+        {% csrf_token %}
+        <b>Your comment: </b><br>
+        {{ commform }}
+        <input type="hidden" name="commlisting" value="{{AuId}}">
+       <ul><input type="submit" value="Submit"> </ul> 
+    </form>
+{% endif %}   
     
 {% endblock %}
